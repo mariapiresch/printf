@@ -4,7 +4,7 @@ CC = gcc
 
 CFLAGS = -Wall -Werror -Wextra
 
-SRCS = 
+SRCS = ft_printf.c
 
 OBJS = $(SRCS:%.c=%.o)
 
