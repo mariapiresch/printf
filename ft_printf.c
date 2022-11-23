@@ -6,11 +6,11 @@
 /*   By: mapires- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 10:07:57 by mapires-          #+#    #+#             */
-/*   Updated: 2022/11/14 10:08:00 by mapires-         ###   ########.fr       */
+/*   Updated: 2022/11/23 18:14:21 by mapires-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
 int	ft_printchar(char c)
 {
@@ -143,7 +143,7 @@ int	ft_printf(char const *s_const, ...)
 	return (size);
 }
 
-int	main(void)
+/*int	main(void)
 {
 	char	c = 'r';
 	char	*str = "adiós \n";
@@ -153,4 +153,4 @@ int	main(void)
 	write(1, "\n", 1);
 	printf("Hola\n%c %s %d %i %x %X %%", c, str, -15, -15, -15, -15);
 	return (0);
-}
+}*/
