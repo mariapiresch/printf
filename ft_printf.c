@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <limits.h>
 
 int	ft_printchar(char c)
 {
@@ -23,6 +24,11 @@ int	ft_printstring(char *str)
 	int	size;
 
 	size = 0;
+	if (!str)
+	{
+		write(1, "(null)", 6);
+		return (6);
+	}
 	while (str[size])
 	{
 		write(1, &str[size], 1);
@@ -31,24 +37,16 @@ int	ft_printstring(char *str)
 	return (size);
 }
 
-/*void	ft_printptr(void *ptr)
+int	ft_printptr(void *ptr)
 {
-	int	i;
+	size_t	i;
+	int		size;
 
-	i = ptr;
-	while()
+	i = (size_t)ptr;
+	write(1, "0x", 2);
+	size = ft_printnbrun(i, 16, "0123456789abcdef");
+	return (size + 2);
 }
-
-void	ft_printhexa(int i)
-{
-	char	*hexa;
-
-	hexa = "0123456789ABCDEF";
-	while (i)
-	{
-		
-	}
-}*/
 
 int	ft_lennbr(long long nbr, int bas)
 {
@@ -62,6 +60,21 @@ int	ft_lennbr(long long nbr, int bas)
 		size++;
 		nbr *= -1;
 	}
+	while (nbr > 0)
+	{
+		nbr /= bas;
+		size++;
+	}
+	return (size);
+}
+
+int	ft_lennbrun(size_t nbr, int bas)
+{
+	int	size;
+
+	size = 0;
+	if (nbr == 0)
+		return (1);
 	while (nbr > 0)
 	{
 		nbr /= bas;
@@ -87,10 +100,28 @@ void	ft_putnbr(long long nb, int bas, char *base)
 	write(1, &base[nb % bas], 1);
 }
 
+void	ft_putnbrun(size_t nb, int bas, char *base)
+{
+	if (nb < (size_t)bas)
+	{
+		write(1, &base[nb], 1);
+		return ;
+	}
+	else
+		ft_putnbr(nb / bas, bas, base);
+	write(1, &base[nb % bas], 1);
+}
+
 int	ft_printnbr(int nbr, int bas, char *base)
 {
 	ft_putnbr((long long)nbr, bas, base);
 	return (ft_lennbr((long long)nbr, bas));
+}
+
+int	ft_printnbrun(size_t nbr, int bas, char *base)
+{
+	ft_putnbrun(nbr, bas, base);
+	return (ft_lennbrun(nbr, bas));
 }
 
 int	ft_conversions(char c, va_list args)
@@ -102,14 +133,16 @@ int	ft_conversions(char c, va_list args)
 		size = ft_printchar(va_arg(args, int));
 	else if (c == 's')
 		size = ft_printstring(va_arg(args, char *));
-/*	else if (c == 'p')
-		size = ft_printptr(va_arg(args, void *));*/
+	else if (c == 'p')
+		size = ft_printptr(va_arg(args, void *));
 	else if (c == 'd' || c == 'i')
 		size = ft_printnbr(va_arg(args, int), 10, "0123456789");
+	else if (c == 'u')
+		size = ft_printnbrun(va_arg(args, unsigned), 10, "0123456789");
 	else if (c == 'x')
-		size = ft_printnbr(va_arg(args, int), 16, "0123456789abcdef");
+		size = ft_printnbrun(va_arg(args, unsigned), 16, "0123456789abcdef");
 	else if (c == 'X')
-		size = ft_printnbr(va_arg(args, int), 16, "0123456789ABCDEF");
+		size = ft_printnbrun(va_arg(args, unsigned), 16, "0123456789ABCDEF");
 	else if (c == '%')
 	{
 		write(1, "%", 1);
@@ -130,7 +163,7 @@ int	ft_printf(char const *s_const, ...)
 		if (*s_const == '%')
 		{
 			s_const++;
-			ft_conversions(*s_const, args);
+			size += ft_conversions(*s_const, args);
 		}
 		else
 		{
@@ -145,12 +178,13 @@ int	ft_printf(char const *s_const, ...)
 
 /*int	main(void)
 {
-	char	c = 'r';
-	char	*str = "adiós \n";
+	char	c = 'r';	
+	int	*str;
 
-	ft_printf("Hola\n%c %s %d %i %x %X %%", c, str, -15, -15, -15, -15);
-	//Arreglar los números hexadecimales negativos!!!!!!
+	*str = 3;
+	ft_printf("%d", ft_printf("Hola %p %p", (void *) LONG_MIN, (void *)LONG_MAX));
 	write(1, "\n", 1);
-	printf("Hola\n%c %s %d %i %x %X %%", c, str, -15, -15, -15, -15);
+	printf("%d", printf("Hola %p %p", (void *) LONG_MIN, (void *)LONG_MAX));
 	return (0);
-}*/
+}
+*/

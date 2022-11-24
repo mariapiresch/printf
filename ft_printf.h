@@ -18,5 +18,6 @@
 # include <stdio.h>
 
 int	ft_printf(char const *s_const, ...);
+int	ft_printnbrun(size_t nbr, int bas, char *base);
 
 #endif
