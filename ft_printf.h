@@ -10,14 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFTPRINTF_H
-# define LIBFTPRINTF_H
+#ifndef  FT_PRINTF_H
+# define FT_PRINTF_H
 
 # include <stdarg.h>
 # include <unistd.h>
 # include <stdio.h>
+# include <limits.h>
 
-int	ft_printf(char const *s_const, ...);
-int	ft_printnbrun(size_t nbr, int bas, char *base);
+int		ft_printf(char const *s_const, ...);
+int		ft_conversions(char c, va_list args);
+int		ft_printchar(char c);
+int		ft_printstring(char *str);
+void	ft_printnbr(long long nb, int bas, char *base, int *size);
+void	ft_printun(size_t nb, int bas, char *base, int *size);
 
 #endif
