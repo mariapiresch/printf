@@ -20,9 +20,9 @@
 
 int		ft_printf(char const *s_const, ...);
 int		ft_conversions(char c, va_list args);
-int		ft_printchar(char c);
-int		ft_printstring(char *str);
-void	ft_printnbr(long long nb, int bas, char *base, int *size);
+void	ft_printchar(char c, int *size);
+void	ft_printstring(char *str, int *size);
+void	ft_printnbr(long long nb, char *base, int *size);
 void	ft_printun(size_t nb, int bas, char *base, int *size);
 
 #endif

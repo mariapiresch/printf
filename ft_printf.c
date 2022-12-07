@@ -18,16 +18,16 @@ int	ft_conversions(char c, va_list args)
 
 	size = 0;
 	if (c == 'c')
-		size = ft_printchar(va_arg(args, int));
+		ft_printchar(va_arg(args, int), &size);
 	else if (c == 's')
-		size = ft_printstring(va_arg(args, char *));
+		ft_printstring(va_arg(args, char *), &size);
 	else if (c == 'p')
 	{
 		size = write(1, "0x", 2);
 		ft_printun((size_t)va_arg(args, void *), 16, "0123456789abcdef", &size);
 	}
 	else if (c == 'd' || c == 'i')
-		ft_printnbr(va_arg(args, int), 10, "0123456789", &size);
+		ft_printnbr(va_arg(args, int), "0123456789", &size);
 	else if (c == 'u')
 		ft_printun(va_arg(args, unsigned), 10, "0123456789", &size);
 	else if (c == 'x')

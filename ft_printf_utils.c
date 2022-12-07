@@ -12,38 +12,35 @@
 
 #include "ft_printf.h"
 
-int	ft_printchar(char c)
+void	ft_printchar(char c, int *size)
 {
-	return (write(1, &c, 1));
+	*size = write(1, &c, 1);
 }
 
-int	ft_printstring(char *str)
+void	ft_printstring(char *str, int *size)
 {
-	int	size;
-
-	size = 0;
 	if (!str)
-		return (write(1, "(null)", 6));
-	while (str[size])
-		size += write(1, &str[size], 1);
-	return (size);
+		*size = write(1, "(null)", 6);
+	else
+		while (str[*size])
+			*size += write(1, &str[*size], 1);
 }
 
-void	ft_printnbr(long long nb, int bas, char *base, int *size)
+void	ft_printnbr(long long nb, char *base, int *size)
 {
 	if (nb < 0)
 	{
 		*size += write(1, "-", 1);
 		nb *= -1;
 	}
-	if (nb < bas)
+	if (nb < 10)
 	{
 		*size += write(1, &base[nb], 1);
 		return ;
 	}
 	else
-		ft_printnbr(nb / bas, bas, base, size);
-	*size += write(1, &base[nb % bas], 1);
+		ft_printnbr(nb / 10, base, size);
+	*size += write(1, &base[nb % 10], 1);
 }
 
 void	ft_printun(size_t nb, int bas, char *base, int *size)
